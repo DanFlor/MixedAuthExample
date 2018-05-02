@@ -76,7 +76,7 @@ class SecuredCredentialStorage(
     }
 
     override fun userOauthSessionNotRecoverable() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        app.forcedLogin()
     }
 
     private fun bearerToken() = securedPrefs.getString(BEARER_TOKEN_KEY, BOGUS_JWT)

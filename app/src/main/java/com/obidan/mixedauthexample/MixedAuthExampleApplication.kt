@@ -1,33 +1,26 @@
 package com.obidan.mixedauthexample
 
 import android.app.Application
-import com.obidan.mixedauthexample.injection.AppComponent
 import com.obidan.mixedauthexample.injection.AppModule
+import com.obidan.mixedauthexample.injection.DaggerNetComponent
 import com.obidan.mixedauthexample.injection.NetComponent
 import com.obidan.mixedauthexample.injection.NetModule
 
 class MixedAuthExampleApplication: Application() {
 
-    lateinit var appComponent: AppComponent
-        private set
     lateinit var netComponent: NetComponent
         private set
 
     override fun onCreate() {
         super.onCreate()
-
-        this.appComponent = initAppComponent()
         this.netComponent = initNetComponent()
     }
 
-    private fun initAppComponent(): AppComponent {
-        return DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-    }
-
     private fun initNetComponent(): NetComponent {
-       return appComponent.plus(NetModule())
+        return DaggerNetComponent.builder()
+                .appModule(AppModule(this))
+                .netModule(NetModule())
+                .build()
     }
 
     fun forcedLogin() {
