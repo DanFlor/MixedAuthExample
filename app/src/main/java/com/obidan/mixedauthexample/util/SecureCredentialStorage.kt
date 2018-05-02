@@ -1,18 +1,18 @@
 package com.obidan.mixedauthexample.util
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.obidan.mixedauthexample.BuildConfig
 import com.obidan.mixedauthexample.MixedAuthExampleApplication
 import com.obidan.mixedauthexample.api.MixedAuthAPI
-import com.obidan.mixedauthexample.api.MixedAuthCredentialsDelegate
+import com.obidan.mixedauthexample.api.delegate.MixedAuthCredentialsDelegate
 import com.obidan.mixedauthexample.extension.withBearerAuthTokenPrefix
 import devliving.online.securedpreferencestore.DefaultRecoveryHandler
 import devliving.online.securedpreferencestore.SecuredPreferenceStore
-import okhttp3.CookieJar
 import okhttp3.Credentials
 
 class SecuredCredentialStorage(
         val app: MixedAuthExampleApplication,
-        val cookieJar: CookieJar
+        val cookieJar: PersistentCookieJar
 ): MixedAuthCredentialsDelegate {
 
     var securedPrefs: SecuredPreferenceStore
@@ -76,7 +76,23 @@ class SecuredCredentialStorage(
     }
 
     override fun userOauthSessionNotRecoverable() {
-        app.forcedLogin()
+        logUserOut()
+    }
+
+    fun logUserOut() {
+
+        // throw out any session cookies used by services:
+        cookieJar.clear()
+
+        // wipe out our user's basic credentials:
+        setUserBasicCredentials("","")
+
+        // wipe out our user's oauth tokens:
+        setUserTokens("","")
+
+        // direct the app to return to login
+        app.returnToLogin()
+
     }
 
     private fun bearerToken() = securedPrefs.getString(BEARER_TOKEN_KEY, BOGUS_JWT)

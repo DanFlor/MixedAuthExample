@@ -1,8 +1,6 @@
-package com.obidan.mixedauthexample.api
+package com.obidan.mixedauthexample.api.delegate
 
-interface MixedAuthCredentialsDelegate {
-    // Used to retrieve the user's basic user/pass credentials auth header
-    fun userBasicAuthCredentials(): String
+interface OauthRefreshAuthenticatorDelegate {
 
     // Used to retrieve the oauth client's basic client id/secret auth header
     fun clientBasicAuthCredentials(): String

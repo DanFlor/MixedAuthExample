@@ -23,7 +23,7 @@ class MixedAuthExampleApplication: Application() {
                 .build()
     }
 
-    fun forcedLogin() {
+    fun returnToLogin() {
         // Force us off to the login page with nothing behind it.
     }
     companion object {

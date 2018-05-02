@@ -1,9 +1,5 @@
 package com.obidan.mixedauthexample.injection
 
-import android.content.Context
-import com.franmontiel.persistentcookiejar.PersistentCookieJar
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -71,7 +67,7 @@ class NetModule {
                 cookieJar
         )
 
-        // Hand the API back to the storage, so it can refresh!
+        // Hand the API back to the storage, so it can refresh tokens!
         securedCredentialStorage.api = api
 
         //Done!

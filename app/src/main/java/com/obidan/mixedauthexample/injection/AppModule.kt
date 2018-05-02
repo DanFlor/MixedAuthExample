@@ -24,10 +24,11 @@ class AppModule(
     @Singleton
     fun provideMixedAuthExampleApp(): MixedAuthExampleApplication = app
 
-
     @Provides
     @Singleton
-    fun provideCookieJar(context: Context): CookieJar {
+    fun providePersistentCookieJar(
+            context: Context
+    ): PersistentCookieJar {
         return PersistentCookieJar(
                 SetCookieCache(),
                 SharedPrefsCookiePersistor(context)
@@ -36,7 +37,16 @@ class AppModule(
 
     @Provides
     @Singleton
-    fun provideSecuredCredentialStorage(app: MixedAuthExampleApplication, cookieJar: CookieJar): SecuredCredentialStorage {
+    fun provideCookieJar(
+            cookieJar: PersistentCookieJar
+    ): CookieJar = cookieJar
+
+    @Provides
+    @Singleton
+    fun provideSecuredCredentialStorage(
+            app: MixedAuthExampleApplication,
+            cookieJar: PersistentCookieJar
+    ): SecuredCredentialStorage {
         return SecuredCredentialStorage(app, cookieJar)
     }
 }

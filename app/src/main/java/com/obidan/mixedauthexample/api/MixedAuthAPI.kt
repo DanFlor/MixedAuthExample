@@ -2,6 +2,7 @@ package com.obidan.mixedauthexample.api
 
 import com.obidan.mixedauthexample.BuildConfig
 import com.obidan.mixedauthexample.Constants
+import com.obidan.mixedauthexample.api.delegate.MixedAuthCredentialsDelegate
 import com.obidan.mixedauthexample.api.model.TokenResponse
 import io.reactivex.Single
 import okhttp3.CookieJar
