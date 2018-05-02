@@ -44,15 +44,6 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun provideCookieJar(context: Context): CookieJar {
-        return PersistentCookieJar(
-                SetCookieCache(),
-                SharedPrefsCookiePersistor(context)
-        );
-    }
-
-    @Provides
-    @Singleton
     fun provideOauthRefreshAuthenticator(
             securedCredentialStorage: SecuredCredentialStorage
     ): OauthRefreshAuthenticator {

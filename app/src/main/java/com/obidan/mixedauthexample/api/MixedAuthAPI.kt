@@ -16,17 +16,32 @@ import java.util.concurrent.TimeUnit
 
 interface MixedAuthAPI {
 
-    @GET(BuildConfig.API_SUB_URL + "endpointA/")
-    fun getEndpointA(
+    // A legacy endpoint that is not wired up to Oauth yet:
+    @GET(BuildConfig.API_SUB_URL + "a_basic_auth_endpoint/")
+    fun getABasicAuthEndpoint(
             @Header(Constants.httpHeaderAuthorization) basicCredentials: String =
                     credentialsDelegate?.userBasicAuthCredentials() ?: ""
     ): Single<Void>
 
-    @GET(BuildConfig.OAUTH_SUB_URL + "endpointB/")
-    fun getEndpointB(
+    // An endpoint that is secured with the user's login token
+    @GET(BuildConfig.OAUTH_SUB_URL + "an_oauth_endpoint/")
+    fun getAnOauthEndpoint(
             @Header(Constants.httpHeaderAuthorization) bearerToken: String =
                     credentialsDelegate?.userOauthBearerToken() ?: ""
     ): Single<Void>
+
+
+    @FormUrlEncoded
+    @POST(BuildConfig.OAUTH_SUB_URL + "oauth/token")
+    fun login(
+            @Field("username") username: String,
+            @Field("password") password: String,
+            @Field("grant_type") grant_type: String = "password",
+            @Field("scope") scope: String = BuildConfig.OAUTH_SCOPE,
+            @Header(Constants.httpHeaderAuthorization) clientCredentials: String =
+                credentialsDelegate?.clientBasicAuthCredentials() ?: "",
+            @Header("Cache-Control") cacheControlHeader: String = "no-cache"
+    ): Single<TokenResponse>  // Use asynchronously from the main thread for UI Login
 
     @FormUrlEncoded
     @POST(BuildConfig.OAUTH_SUB_URL + "oauth/token")
@@ -35,8 +50,9 @@ interface MixedAuthAPI {
                     credentialsDelegate?.userOauthRefreshToken() ?: "",
             @Field("grant_type") grant_type: String = "refresh_token",
             @Header(Constants.httpHeaderAuthorization) clientCredentials: String =
-                    credentialsDelegate?.clientBasicAuthCredentials() ?: ""
-    ): Call<TokenResponse>
+                    credentialsDelegate?.clientBasicAuthCredentials() ?: "",
+            @Header("Cache-Control") cacheControlHeader: String = "no-cache"
+    ): Call<TokenResponse> // Use synchronously from a background thread for token refresh
 
     companion object Factory {
 
@@ -74,5 +90,4 @@ interface MixedAuthAPI {
             return retrofit.create(MixedAuthAPI::class.java)
         }
     }
-
 }

@@ -8,6 +8,9 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
+    kapt {
+        generateStubs = true
+    }
     defaultConfig {
         applicationId "com.obidan.mixedauthexample"
         minSdkVersion 19
@@ -20,6 +23,7 @@ android {
         buildConfigField "String", "BASE_URL", '"https://www.your_api_domain.com/"'
         buildConfigField "String", "OAUTH_SUB_URL", '"path/to/oauth/secured/api/"'
         buildConfigField "String", "API_SUB_URL", '"path/to/basic/auth/api/"'
+        buildConfigField "String", "OAUTH_SCOPE", '"root_or_whatever_your_context_is"'
         buildConfigField "String", "OAUTH_CLIENT_ID", '"totally_not_an_imposter"'
         buildConfigField "String", "OAUTH_CLIENT_SECRET", '"100%_genuine_secret_code"'
     }
@@ -53,8 +57,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     implementation 'com.jakewharton.timber:timber:4.6.1'

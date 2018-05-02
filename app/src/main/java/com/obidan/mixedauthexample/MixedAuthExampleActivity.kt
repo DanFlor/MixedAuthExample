@@ -13,7 +13,6 @@ abstract class MixedAuthExampleActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        Injector.getAppComponent().inject(this)
         Injector.getNetComponent().inject(this)
     }
 

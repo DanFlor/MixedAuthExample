@@ -1,16 +1,18 @@
 package com.obidan.mixedauthexample.util
 
-import android.content.Context
 import com.obidan.mixedauthexample.BuildConfig
+import com.obidan.mixedauthexample.MixedAuthExampleApplication
 import com.obidan.mixedauthexample.api.MixedAuthAPI
 import com.obidan.mixedauthexample.api.MixedAuthCredentialsDelegate
 import com.obidan.mixedauthexample.extension.withBearerAuthTokenPrefix
 import devliving.online.securedpreferencestore.DefaultRecoveryHandler
 import devliving.online.securedpreferencestore.SecuredPreferenceStore
+import okhttp3.CookieJar
 import okhttp3.Credentials
 
 class SecuredCredentialStorage(
-        context: Context
+        val app: MixedAuthExampleApplication,
+        val cookieJar: CookieJar
 ): MixedAuthCredentialsDelegate {
 
     var securedPrefs: SecuredPreferenceStore
@@ -18,7 +20,7 @@ class SecuredCredentialStorage(
     var api: MixedAuthAPI? = null
 
     init {
-        SecuredPreferenceStore.init(context, DefaultRecoveryHandler())
+        SecuredPreferenceStore.init(app, DefaultRecoveryHandler())
         securedPrefs = SecuredPreferenceStore.getSharedInstance()
     }
 
@@ -71,6 +73,10 @@ class SecuredCredentialStorage(
                 .putString(USERNAME_KEY, username)
                 .putString(PASSWORD_KEY, password)
                 .commit()
+    }
+
+    override fun userOauthSessionNotRecoverable() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun bearerToken() = securedPrefs.getString(BEARER_TOKEN_KEY, BOGUS_JWT)

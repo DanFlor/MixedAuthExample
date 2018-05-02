@@ -12,7 +12,6 @@ abstract class MixedAuthExampleFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Injector.getAppComponent().inject(this)
         Injector.getNetComponent().inject(this)
     }
 }

@@ -15,4 +15,7 @@ interface MixedAuthCredentialsDelegate {
 
     // Used to request a user's refreshed oauth bearer token:
     fun userOauthRefreshedBearerToken(): String?
+
+    // Used to signal that the oauth session is not recoverable
+    fun userOauthSessionNotRecoverable()
 }
