@@ -15,6 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "long", "NETWORK_CONNECT_TIMEOUT", '10'
+        buildConfigField "long", "NETWORK_READ_TIMEOUT", '30'
         buildConfigField "String", "BASE_URL", '"https://www.your_api_domain.com/"'
         buildConfigField "String", "OAUTH_SUB_URL", '"path/to/oauth/secured/api/"'
         buildConfigField "String", "API_SUB_URL", '"path/to/basic/auth/api/"'
