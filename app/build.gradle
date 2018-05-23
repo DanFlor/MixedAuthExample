@@ -26,6 +26,7 @@ android {
         buildConfigField "String", "OAUTH_SCOPE", '"root_or_whatever_your_context_is"'
         buildConfigField "String", "OAUTH_CLIENT_ID", '"totally_not_an_imposter"'
         buildConfigField "String", "OAUTH_CLIENT_SECRET", '"100%_genuine_secret_code"'
+        buildConfigField "int", "OAUTH_RE_AUTH_RETRY_LIMIT", '1'
     }
     buildTypes {
         release {
