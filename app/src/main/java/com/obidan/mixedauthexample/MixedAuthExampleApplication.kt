@@ -13,6 +13,7 @@ class MixedAuthExampleApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        INSTANCE = this
         this.netComponent = initNetComponent()
     }
 
