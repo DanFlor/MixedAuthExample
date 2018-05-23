@@ -46,6 +46,18 @@ interface MixedAuthAPI {
 
     @FormUrlEncoded
     @POST(BuildConfig.OAUTH_SUB_URL + "oauth/token")
+    fun refreshLogin(
+            @Field("username") username: String,
+            @Field("password") password: String,
+            @Field("grant_type") grant_type: String = "password",
+            @Field("scope") scope: String = BuildConfig.OAUTH_SCOPE,
+            @Header(Constants.httpHeaderAuthorization) clientCredentials: String =
+                    credentialsDelegate?.clientBasicAuthCredentials() ?: "",
+            @Header("Cache-Control") cacheControlHeader: String = "no-cache"
+    ): Single<TokenResponse>  // Use synchronously from a background thread for token refresh
+
+    @FormUrlEncoded
+    @POST(BuildConfig.OAUTH_SUB_URL + "oauth/token")
     fun refreshTokens(
             @Field("refresh_token") refreshToken: String =
                     credentialsDelegate?.userOauthRefreshToken() ?: "",
